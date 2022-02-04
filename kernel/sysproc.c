@@ -76,14 +76,39 @@ sys_sleep(void)
 }
 
 
-#ifdef LAB_PGTBL
+// #ifdef LAB_PGTBL
 int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
+  // walk() to find the PTE for the page
+  char *buf;
+  int n;
+  unsigned int *abits;
+  unsigned int mask = 0;
+  if(argaddr(0, (uint64*)&buf) < 0 || argint(1, &n) < 0 || argint(2, (int*)&abits) < 0)
+    return -1;
+  // printf("buf in syscall:%p\n", buf);
+
+  for(int i = 0; i < 31; i++) {
+    // printf("i=%d\n", i);z
+    pte_t *pte = walk(myproc()->pagetable, (uint64)&buf[PGSIZE * i], 0);
+    // printf("*pte:%p\n", *pte);
+    if(pte == 0) continue;
+    if(*pte & PTE_A) {
+      *pte &= ~PTE_A;
+      mask |= 1 << i;
+      // printf("Hit\n");
+    }
+  }
+
+  // printf("mask:%d\n", mask);
+
+  copyout(myproc()->pagetable, (uint64)abits, (char*)&mask, 32);
+  
   return 0;
 }
-#endif
+// #endif
 
 uint64
 sys_kill(void)
