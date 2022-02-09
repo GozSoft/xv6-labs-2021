@@ -80,6 +80,16 @@ usertrap(void)
   if(which_dev == 2)
     yield();
 
+  if(which_dev == 2 && p->alarm_interval) 
+  {
+    p->ticks_passed++;
+    if(p->ticks_passed >= p->alarm_interval)
+      {
+        p->ticks_passed = 0;
+        p->trapframe->epc = (uint64)p->handler;
+      }
+  }
+
   usertrapret();
 }
 

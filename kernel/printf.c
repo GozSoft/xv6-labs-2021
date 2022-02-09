@@ -142,13 +142,13 @@ void backtrace() {
   // fram pointer points to the top of current frame
   // return address is at fp - 8
   // saved fram pointer of previous fram is at fp - 16
-  printf("backtrace:\n");
-  uint64 fp = r_fp();
-  uint64 fp_top = PGROUNDUP(fp);
+  // printf("backtrace:\n");
+  // uint64 fp = r_fp();
+  // uint64 fp_top = PGROUNDUP(fp);
 
-  while(1) {
-    if(PGROUNDUP(fp) != fp_top) break;
-    printf("%p\n", *(uint64*)(fp - 8));
-    fp = *(uint64*)(fp - 16);
-  }
+  // while(1) {
+  //   if(PGROUNDUP(fp) != fp_top) break;
+  //   printf("%p\n", *(uint64*)(fp - 8));
+  //   fp = *(uint64*)(fp - 16);
+  // }
 }

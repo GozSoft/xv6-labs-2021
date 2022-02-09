@@ -22,8 +22,8 @@ int
 main(int argc, char *argv[])
 {
   test0();
-  test1();
-  test2();
+  // test1();
+  // test2();
   exit(0);
 }
 
@@ -46,6 +46,7 @@ test0()
   printf("test0 start\n");
   count = 0;
   sigalarm(2, periodic);
+
   for(i = 0; i < 1000*500000; i++){
     if((i % 1000000) == 0)
       write(2, ".", 1);
