@@ -114,5 +114,40 @@ uint64 sys_sigalarm(void)
 
 uint64 sys_sigreturn(void)
 {
+  struct proc *p = myproc();
+  struct trapframe *tf = p->trapframe;
+  struct trapframe *stf = &p->se_trapframe;
+  tf->epc = stf->epc;
+  tf->ra = stf->ra;
+  tf->sp = stf->sp;
+  tf->t0 = stf->t0;
+  tf->t1 = stf->t1;
+  tf->t2 = stf->t2;
+  tf->s0 = stf->s0;
+  tf->s1 = stf->s1;
+  tf->a0 = stf->a0;
+  tf->a1 = stf->a1;
+  tf->a2 = stf->a2;
+  tf->a3 = stf->a3;
+  tf->a4 = stf->a4;
+  tf->a5 = stf->a5;
+  tf->a6 = stf->a6;
+  tf->a7 = stf->a7;
+  tf->s2 = stf->s2;
+  tf->s3 = stf->s3;
+  tf->s4 = stf->s4;
+  tf->s5 = stf->s5;
+  tf->s6 = stf->s6;
+  tf->s7 = stf->s7;
+  tf->s8 = stf->s8;
+  tf->s9 = stf->s9;
+  tf->s10 = stf->s10;
+  tf->s11 = stf->s11;
+  tf->t3 = stf->t3;
+  tf->t4 = stf->t4;
+  tf->t5 = stf->t5;
+  tf->t6 = stf->t6;
+
+  p->handler_flag = 0;
   return 0;
 }

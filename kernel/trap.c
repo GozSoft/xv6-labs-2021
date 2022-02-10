@@ -84,10 +84,14 @@ usertrap(void)
   {
     p->ticks_passed++;
     if(p->ticks_passed >= p->alarm_interval)
-      {
-        p->ticks_passed = 0;
+    {
+      p->ticks_passed = 0;
+      if(!p->handler_flag) {
+        p->handler_flag = 1;
+        memmove(&p->se_trapframe, p->trapframe, sizeof(struct trapframe));
         p->trapframe->epc = (uint64)p->handler;
       }
+    }
   }
 
   usertrapret();
